@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cazadores de Identidades · 2do de Secundaria</title>
+<style>
+  :root{
+    --bg:#f3f6fb; --card:#ffffff; --ink:#1d2433; --muted:#5a6579;
+    --brand:#1f3a5f; --accent:#e08a1e; --ok:#2e9e5b; --okbg:#e3f6ea;
+    --bad:#d04646; --badbg:#fde8e8; --line:#d9e0ec;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{ --bg:#10151f; --card:#1a2231; --ink:#eef2f9; --muted:#a3afc4; --brand:#8fb4ee;
+           --accent:#f0a64a; --ok:#58cf8a; --okbg:#173326; --bad:#f08080; --badbg:#3a1d1d; --line:#2c3850; }
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;background:var(--bg);color:var(--ink);
+       min-height:100vh;display:flex;justify-content:center;padding:18px}
+  .wrap{width:100%;max-width:720px}
+  header{text-align:center;margin:6px 0 16px}
+  header h1{margin:0;font-size:1.6rem;color:var(--brand)}
+  header p{margin:4px 0 0;color:var(--muted);font-size:.95rem}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px;box-shadow:0 4px 18px rgba(20,30,60,.08)}
+  .hidden{display:none}
+  .btn{font:inherit;cursor:pointer;border:none;border-radius:12px;padding:12px 20px;font-weight:600;font-size:1rem}
+  .btn-main{background:var(--brand);color:#fff}
+  @media (prefers-color-scheme: dark){ .btn-main{color:#10151f} }
+  .btn-main:hover{filter:brightness(1.1)}
+  .btn-ghost{background:transparent;color:var(--brand);border:2px solid var(--line)}
+  .btn:focus-visible,.opt:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+  .center{text-align:center}
+  .rules{margin:14px 0 20px;padding-left:20px;color:var(--muted);line-height:1.6}
+  .topbar{display:flex;justify-content:space-between;align-items:center;font-size:.9rem;color:var(--muted);margin-bottom:8px;gap:10px}
+  .bar{height:10px;background:var(--line);border-radius:99px;overflow:hidden;margin-bottom:18px}
+  .bar>div{height:100%;width:0;background:linear-gradient(90deg,var(--brand),var(--accent));transition:width .35s}
+  .tag{display:inline-block;font-size:.78rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;
+       color:var(--accent);margin-bottom:6px}
+  .q{font-size:1.25rem;line-height:1.5;margin:0 0 16px;font-weight:600}
+  .expr{display:block;text-align:center;font-size:1.45rem;margin:10px 0 16px;padding:12px;border-radius:12px;
+        background:var(--bg);font-family:"Cambria Math",Cambria,"Times New Roman",serif}
+  .opts{display:grid;gap:10px}
+  .opt{font:inherit;text-align:left;cursor:pointer;width:100%;background:var(--card);color:var(--ink);
+       border:2px solid var(--line);border-radius:12px;padding:13px 16px;font-size:1.08rem;
+       font-family:"Cambria Math",Cambria,"Times New Roman",serif;transition:border-color .15s,transform .05s}
+  .opt:hover:not(:disabled){border-color:var(--brand)}
+  .opt:active:not(:disabled){transform:scale(.99)}
+  .opt:disabled{cursor:default}
+  .opt.ok{background:var(--okbg);border-color:var(--ok)}
+  .opt.bad{background:var(--badbg);border-color:var(--bad)}
+  .fb{margin-top:16px;padding:14px 16px;border-radius:12px;line-height:1.55}
+  .fb.ok{background:var(--okbg);border-left:5px solid var(--ok)}
+  .fb.bad{background:var(--badbg);border-left:5px solid var(--bad)}
+  .fb strong.t{display:block;margin-bottom:4px}
+  .next{margin-top:14px;text-align:right}
+  .score-big{font-size:3.2rem;font-weight:800;color:var(--brand);margin:6px 0}
+  .medal{font-size:3rem}
+  .review{margin-top:18px;text-align:left}
+  .review h3{margin:0 0 8px;font-size:1.05rem}
+  .ritem{border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-bottom:10px;line-height:1.5}
+  .ritem .rq{font-weight:600}
+  .ritem .ra{color:var(--ok);font-weight:600;margin-top:4px;font-family:"Cambria Math",Cambria,serif}
+  .chuleta{margin-top:14px}
+  details{border:1px solid var(--line);border-radius:12px;padding:10px 14px;background:var(--card)}
+  summary{cursor:pointer;font-weight:600;color:var(--brand)}
+  details table{width:100%;border-collapse:collapse;margin-top:10px;font-family:"Cambria Math",Cambria,"Times New Roman",serif;font-size:1.02rem}
+  details td{padding:6px 8px;border-top:1px solid var(--line)}
+  footer{text-align:center;color:var(--muted);font-size:.8rem;margin:16px 0 4px}
+  sup{font-size:.7em;line-height:0}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>🕵️ Cazadores de Identidades</h1>
+    <p>Identidades trigonométricas pitagóricas · 2do de Secundaria</p>
+  </header>
+
+  <!-- PANTALLA INICIAL -->
+  <section id="inicio" class="card">
+    <h2 style="margin-top:0">¿Listo para el reto?</h2>
+    <ul class="rules">
+      <li>Son <strong>10 preguntas</strong> de opción múltiple.</li>
+      <li>Después de cada respuesta verás una <strong>explicación</strong> para aprender del acierto o del error.</li>
+      <li>Puedes jugar <strong>las veces que quieras</strong>: las preguntas y las opciones cambian de orden.</li>
+      <li>Ten a la mano tu cuaderno para hacer las cuentas. ¡Tú puedes!</li>
+    </ul>
+    <div class="center"><button class="btn btn-main" id="btnEmpezar">▶ Empezar</button></div>
+    <div class="chuleta" id="chuletaInicio"></div>
+  </section>
+
+  <!-- PREGUNTA -->
+  <section id="juego" class="card hidden" aria-live="polite">
+    <div class="topbar"><span id="progreso"></span><span id="puntos"></span></div>
+    <div class="bar"><div id="barra"></div></div>
+    <div class="tag" id="tipo"></div>
+    <p class="q" id="enunciado"></p>
+    <div class="expr hidden" id="expr"></div>
+    <div class="opts" id="opciones"></div>
+    <div id="feedback"></div>
+    <div class="next hidden" id="siguienteBox"><button class="btn btn-main" id="btnSiguiente">Siguiente →</button></div>
+  </section>
+
+  <!-- RESULTADO -->
+  <section id="final" class="card hidden center">
+    <div class="medal" id="medalla"></div>
+    <h2 id="mensaje" style="margin:6px 0"></h2>
+    <div class="score-big" id="nota"></div>
+    <p id="detalle" style="color:var(--muted);margin:0 0 16px"></p>
+    <button class="btn btn-main" id="btnOtra">🔄 Jugar otra vez</button>
+    <div class="review hidden" id="repaso"></div>
+  </section>
+
+  <footer>Hecho para practicar · I.E.P. “Peruano Americano” · Trigonometría 2do año</footer>
+</div>
+
+<script>
+/* ================== BANCO DE PREGUNTAS (10) ==================
+   Para editar: cambia los textos. La opción correcta es la primera de "o"
+   (el juego mezcla el orden al jugar). Usa <sup>2</sup> para potencias. */
+const PREGUNTAS = [
+  { tipo:"Identidad base",
+    q:"Para cualquier ángulo θ, ¿cuánto vale Sen<sup>2</sup>θ + Cos<sup>2</sup>θ?",
+    o:["1","0","2","Depende del valor de θ"],
+    e:"Es la identidad pitagórica fundamental: sale del teorema de Pitágoras en la circunferencia trigonométrica (OP² = PH² + OH² con OP = 1). Vale 1 para todo θ." },
+
+  { tipo:"Formas equivalentes",
+    q:"Si Sen<sup>2</sup>θ + Cos<sup>2</sup>θ = 1, entonces Sen<sup>2</sup>θ es igual a:",
+    o:["1 − Cos<sup>2</sup>θ","1 + Cos<sup>2</sup>θ","Cos<sup>2</sup>θ − 1","1 − Senθ"],
+    e:"Despejas pasando Cos²θ al otro lado: Sen²θ = 1 − Cos²θ. Ojo con el signo: es una resta." },
+
+  { tipo:"¡Conflicto cognitivo!",
+    q:"¿Es verdad que (Senθ + Cosθ)<sup>2</sup> = 1 para todo θ?",
+    o:["Falso","Verdadero"],
+    e:"Es FALSO. Con θ = 30°: Sen30° + Cos30° = 0.5 + 0.866 = 1.366 y su cuadrado es 1.866, no 1. En realidad (Senθ + Cosθ)² = Sen²θ + 2SenθCosθ + Cos²θ = 1 + 2SenθCosθ. El cuadrado de una suma no es la suma de cuadrados." },
+
+  { tipo:"Deduciendo identidades",
+    q:"Si divides Sen<sup>2</sup>θ + Cos<sup>2</sup>θ = 1 entre Cos<sup>2</sup>θ, obtienes:",
+    o:["Tg<sup>2</sup>θ + 1 = Sec<sup>2</sup>θ","1 + Ctg<sup>2</sup>θ = Csc<sup>2</sup>θ","Tg<sup>2</sup>θ + 1 = Csc<sup>2</sup>θ","Sen<sup>2</sup>θ + 1 = Sec<sup>2</sup>θ"],
+    e:"Sen²θ/Cos²θ = Tg²θ, Cos²θ/Cos²θ = 1 y 1/Cos²θ = Sec²θ. Resultado: Tg²θ + 1 = Sec²θ, o también Sec²θ − Tg²θ = 1." },
+
+  { tipo:"Deduciendo identidades",
+    q:"Si divides Sen<sup>2</sup>θ + Cos<sup>2</sup>θ = 1 entre Sen<sup>2</sup>θ, obtienes:",
+    o:["1 + Ctg<sup>2</sup>θ = Csc<sup>2</sup>θ","1 + Tg<sup>2</sup>θ = Csc<sup>2</sup>θ","1 + Ctg<sup>2</sup>θ = Sec<sup>2</sup>θ","Ctg<sup>2</sup>θ − 1 = Csc<sup>2</sup>θ"],
+    e:"Sen²θ/Sen²θ = 1, Cos²θ/Sen²θ = Ctg²θ y 1/Sen²θ = Csc²θ. Resultado: 1 + Ctg²θ = Csc²θ. Cuidado: dividir entre Senθ da la Csc, y entre Cosθ da la Sec." },
+
+  { tipo:"Simplificar",
+    q:"Simplifica la expresión:",
+    expr:"E = (1 − Sen<sup>2</sup>x) · Secx",
+    o:["Cosx","Senx","Tgx","Secx"],
+    e:"1 − Sen²x = Cos²x. Entonces E = Cos²x · Secx = Cos²x · (1/Cosx) = Cosx." },
+
+  { tipo:"Simplificar",
+    q:"Reduce la expresión:",
+    expr:"E = Sec<sup>2</sup>θ − Tg<sup>2</sup>θ + Sen<sup>2</sup>θ + Cos<sup>2</sup>θ",
+    o:["2","1","0","Sec<sup>2</sup>θ"],
+    e:"Aquí aparecen dos identidades pitagóricas: Sec²θ − Tg²θ = 1 y Sen²θ + Cos²θ = 1. Entonces E = 1 + 1 = 2." },
+
+  { tipo:"Productos notables + identidad",
+    q:"Simplifica la expresión:",
+    expr:"E = (Secx + Tgx)(Secx − Tgx)",
+    o:["1","Sec<sup>2</sup>x + Tg<sup>2</sup>x","2Secx","Tg<sup>2</sup>x"],
+    e:"Es una diferencia de cuadrados: (a + b)(a − b) = a² − b². Entonces E = Sec²x − Tg²x = 1." },
+
+  { tipo:"Productos notables + identidad",
+    q:"Simplifica la expresión:",
+    expr:"E = Sen<sup>4</sup>θ − Cos<sup>4</sup>θ",
+    o:["Sen<sup>2</sup>θ − Cos<sup>2</sup>θ","1","Cos<sup>2</sup>θ − Sen<sup>2</sup>θ","0"],
+    e:"Diferencia de cuadrados: Sen⁴θ − Cos⁴θ = (Sen²θ − Cos²θ)(Sen²θ + Cos²θ). Como Sen²θ + Cos²θ = 1, queda Sen²θ − Cos²θ." },
+
+  { tipo:"Ojo con los valores permitidos",
+    q:"La identidad Sec<sup>2</sup>θ − Tg<sup>2</sup>θ = 1 se cumple para todos los ángulos permitidos. ¿Para cuál de estos ángulos NO se puede aplicar?",
+    o:["90°","30°","45°","60°"],
+    e:"En θ = 90° no existen ni Secθ ni Tgθ (Cos90° = 0 y no se puede dividir entre 0). Por eso la identidad exige θ ≠ (2n+1)·π/2." }
+];
+
+const CHULETA = `
+<details><summary>📋 Ver tarjeta de identidades (ayuda)</summary>
+<table>
+<tr><td>Sen<sup>2</sup>θ + Cos<sup>2</sup>θ = 1</td><td>Sen<sup>2</sup>θ = 1 − Cos<sup>2</sup>θ</td></tr>
+<tr><td>Sec<sup>2</sup>θ − Tg<sup>2</sup>θ = 1</td><td>Sec<sup>2</sup>θ = 1 + Tg<sup>2</sup>θ</td></tr>
+<tr><td>Csc<sup>2</sup>θ − Ctg<sup>2</sup>θ = 1</td><td>Csc<sup>2</sup>θ = 1 + Ctg<sup>2</sup>θ</td></tr>
+<tr><td>Tgθ = Senθ / Cosθ</td><td>Ctgθ = Cosθ / Senθ</td></tr>
+<tr><td>Secθ = 1 / Cosθ</td><td>Cscθ = 1 / Senθ</td></tr>
+</table></details>`;
+
+/* ================== LÓGICA DEL JUEGO ================== */
+const $ = id => document.getElementById(id);
+let orden = [], idx = 0, aciertos = 0, falladas = [], respondida = false;
+
+function mezclar(arr){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; }
+  return a;
+}
+function mostrar(id){
+  ["inicio","juego","final"].forEach(x => $(x).classList.toggle("hidden", x!==id));
+  window.scrollTo({top:0, behavior:"smooth"});
+}
+function empezar(){
+  orden = mezclar(PREGUNTAS.map((_,i)=>i));
+  idx = 0; aciertos = 0; falladas = [];
+  mostrar("juego");
+  cargar();
+}
+function cargar(){
+  respondida = false;
+  const p = PREGUNTAS[orden[idx]];
+  $("progreso").textContent = `Pregunta ${idx+1} de ${PREGUNTAS.length}`;
+  $("puntos").textContent = `✔ ${aciertos} correctas`;
+  $("barra").style.width = (idx/PREGUNTAS.length*100) + "%";
+  $("tipo").textContent = p.tipo;
+  $("enunciado").innerHTML = p.q;
+  const ex = $("expr");
+  if(p.expr){ ex.innerHTML = p.expr; ex.classList.remove("hidden"); } else { ex.classList.add("hidden"); }
+  $("feedback").innerHTML = "";
+  $("siguienteBox").classList.add("hidden");
+  const cont = $("opciones"); cont.innerHTML = "";
+  const opciones = p.o.map((t,i)=>({t, correcta:i===0}));
+  // Verdadero/Falso se mantiene en orden fijo; el resto se mezcla
+  const lista = (p.o.length===2) ? opciones.sort((a,b)=> a.t==="Verdadero" ? -1 : 1) : mezclar(opciones);
+  lista.forEach(op=>{
+    const b = document.createElement("button");
+    b.className = "opt"; b.type = "button"; b.innerHTML = op.t; b.dataset.ok = op.correcta ? "1" : "0";
+    b.addEventListener("click", ()=> responder(b, op.correcta, p));
+    cont.appendChild(b);
+  });
+  $("btnSiguiente").textContent = (idx===PREGUNTAS.length-1) ? "Ver resultado 🏁" : "Siguiente →";
+}
+function responder(btn, correcta, p){
+  if(respondida) return;
+  respondida = true;
+  const botones = [...document.querySelectorAll(".opt")];
+  botones.forEach(b => b.disabled = true);
+  const fb = $("feedback");
+  if(correcta){
+    aciertos++;
+    btn.classList.add("ok");
+    fb.innerHTML = `<div class="fb ok"><strong class="t">✅ ¡Correcto!</strong>${p.e}</div>`;
+  } else {
+    btn.classList.add("bad");
+    const buena = botones.find(b => b.dataset.ok === "1");
+    if(buena) buena.classList.add("ok");
+    falladas.push(p);
+    fb.innerHTML = `<div class="fb bad"><strong class="t">❌ Casi. La respuesta correcta está en verde.</strong>${p.e}</div>`;
+  }
+  $("puntos").textContent = `✔ ${aciertos} correctas`;
+  $("barra").style.width = ((idx+1)/PREGUNTAS.length*100) + "%";
+  $("siguienteBox").classList.remove("hidden");
+  $("btnSiguiente").focus();
+}
+function siguiente(){
+  idx++;
+  if(idx >= PREGUNTAS.length) terminar(); else cargar();
+}
+function terminar(){
+  const n = PREGUNTAS.length;
+  let medalla, msg;
+  if(aciertos===n){ medalla="🏆"; msg="¡Cazador de identidades legendario!"; }
+  else if(aciertos>=8){ medalla="🥇"; msg="¡Excelente trabajo!"; }
+  else if(aciertos>=6){ medalla="🥈"; msg="¡Muy bien, ya casi!"; }
+  else if(aciertos>=4){ medalla="🥉"; msg="Vas por buen camino, repasa y vuelve a intentar."; }
+  else { medalla="💪"; msg="Todos empezamos así: repasa la tarjeta y juega otra vez."; }
+  $("medalla").textContent = medalla;
+  $("mensaje").textContent = msg;
+  $("nota").textContent = `${aciertos} / ${n}`;
+  $("detalle").textContent = aciertos===n ? "Respondiste todo bien." :
+      `Fallaste ${falladas.length} pregunta${falladas.length>1?"s":""}. Repásalas abajo y vuelve a jugar.`;
+  const rep = $("repaso");
+  if(falladas.length){
+    rep.classList.remove("hidden");
+    rep.innerHTML = "<h3>📝 Para repasar</h3>" + falladas.map(p =>
+      `<div class="ritem"><div class="rq">${p.q}${p.expr ? "<br>" + p.expr : ""}</div>
+       <div class="ra">Respuesta: ${p.o[0]}</div><div style="color:var(--muted);margin-top:4px">${p.e}</div></div>`).join("");
+  } else { rep.classList.add("hidden"); rep.innerHTML = ""; }
+  mostrar("final");
+}
+
+$("chuletaInicio").innerHTML = CHULETA;
+$("btnEmpezar").addEventListener("click", empezar);
+$("btnSiguiente").addEventListener("click", siguiente);
+$("btnOtra").addEventListener("click", empezar);
+</script>
+</body>
+</html>
